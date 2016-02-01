@@ -66,11 +66,6 @@ function loadFromBookMarks() {
 
 function loadCommands() {
     try {
-        var { env } = require('sdk/system/environment');
-        var fsPath = require('sdk/fs/path');
-        var HOME = env.HOME;
-        var commandFoxJson = fsPath.join(HOME, '.commandFox.json');
-        console.log('CommandFoxJson: ' + commandFoxJson);
         // Cleanup the existing commands first
         commandDb = {};
 
@@ -84,19 +79,6 @@ function loadCommands() {
                            func:  helpCommand});
 
         loadFromBookMarks();
-
-        var jsonText = readTextFromFile(commandFoxJson);
-        if (jsonText !== null) {
-            var commandArray = JSON.parse(jsonText);
-            if (commandArray !== null) {
-                var arrayLength = commandArray.length;
-                for (var i = 0; i < arrayLength; i++) {
-                    makeSearchCommand(commandArray[i]);
-                }
-            } else {
-                console.error("Couldn't extract JSON from: " + jsonText);
-            }
-        }
     } catch (e) {
         console.info(e);
     }
@@ -149,6 +131,7 @@ text_entry.port.on("text-entered", function (text) {
         urlToOpen = urlData['url'];
         if (urlToOpen !== undefined) {
             var urlWithQuery = urlToOpen.replace("{QUERY}", queryCmd);
+            urlWithQuery = urlWithQuery.replace("%7BQUERY%7D", queryCmd);
             tabs.open(urlWithQuery);
         }
         funcToExec = urlData['func'];
