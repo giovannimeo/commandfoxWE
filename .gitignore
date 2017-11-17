@@ -2,4 +2,5 @@
 *.xpi
 bootstrap.js
 install.rdf
+web-ext-artifacts/
 

@@ -1,0 +1,20 @@
+{
+    "name": "commandfoxWE",
+    "description": "Addon that gives a command line to Firefox (WebExtension)",
+    "manifest_version": 2,
+    "version": "1.0.0",
+    "homepage_url": "https://github.com/giovannimeo/commandfoxWE",
+    "background": {
+        "scripts": ["index.js"]
+    },
+    "commands": {
+        "toggle-feature": {
+            "suggested_key": { "default": "Ctrl+Shift+U" },
+            "description": "Toggle the feature"
+        },
+        "search": {
+            "suggested_key": { "default": "Ctrl+Space" },
+            "description": "Do the search"
+        }
+    }
+}
