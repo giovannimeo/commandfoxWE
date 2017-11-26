@@ -1,11 +1,28 @@
-function onFulfilled(bookmarkItems) {
-    for (item of bookmarkItems) {
-        console.log(item.id);
+function makeIndent(indentLength) {
+    return ".".repeat(indentLength);
+}
+
+function logItems(bookmarkItem, indent) {
+    if (bookmarkItem.url) {
+        console.log(makeIndent(indent) + bookmarkItem.title + ":" + bookmarkItem.url);
+    } else {
+        console.log(makeIndent(indent) + "[" + bookmarkItem.title + ":" + bookmarkItem.id + "]");
+        indent++;
     }
+    if (bookmarkItem.children) {
+        for (child of bookmarkItem.children) {
+            logItems(child, indent);
+        }
+    }
+    indent--;
+}
+
+function logSubTree(bookmarkItems) {
+    logItems(bookmarkItems[0], 0);
 }
 
 function onRejected(error) {
-    console.log("An error: " + error);
+    console.log(`An error: ${error}`);
 }
 
 browser.commands.onCommand.addListener(function(command) {
@@ -13,10 +30,10 @@ browser.commands.onCommand.addListener(function(command) {
         console.log("toggling the feature!");
     } else if (command == "search") {
         console.log("do search");
-        
-        var searching = browser.bookmarks.search({query: "commandfox"});
-        
-        searching.then(onFulfilled, onRejected);
+
+        var gettingSubTree = browser.bookmarks.getSubTree("tags________");
+        console.log("Waiting for search results");
+        gettingSubTree.then(logSubTree, onRejected);
     }
 
 });

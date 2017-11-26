@@ -4,17 +4,26 @@
     "manifest_version": 2,
     "version": "1.0.0",
     "homepage_url": "https://github.com/giovannimeo/commandfoxWE",
+    "permissions": [
+        "bookmarks",
+        "tabs"
+    ], 
     "background": {
         "scripts": ["index.js"]
     },
+    "browser_action": {
+        "default_title": "commandfoxWE",
+        "default_popup": "popup/commandfoxWE.html"
+    },
     "commands": {
-        "toggle-feature": {
-            "suggested_key": { "default": "Ctrl+Shift+U" },
-            "description": "Toggle the feature"
-        },
-        "search": {
+        "_execute_browser_action": {
             "suggested_key": { "default": "Ctrl+Space" },
             "description": "Do the search"
+        }
+    },
+    "applications": {
+        "gecko": {
+            "id": "commandfoxWE@runningcode.it"
         }
     }
 }
