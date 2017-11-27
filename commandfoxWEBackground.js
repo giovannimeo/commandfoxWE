@@ -36,15 +36,28 @@ function loadFromBookMarks() {
     console.log("Waiting for Tags Search");
     gettingTagsSubTree.then(
         function (tagsFolder) {
-            console.log(`Tags Folder: ${tagsFolder[0]}`);
+            console.log("Tags Folder: %o", tagsFolder[0]);
             for (var tag of tagsFolder[0].children) {
                 console.log(`Tag: ${tag}`);
                 if (tag.title == "commandfox") {
                     for (var commandfox of tag.children) {
-                        console.log(`commandfox: ${commandfox.title} url: ${commandfox.url}`);
-                        makeSearchCommand({name: commandfox.title,
-                                           description: "Command " + commandfox.title,
-                                           url:  commandfox.url});
+                        console.log("commandfox: %o", commandfox);
+                        var searching = browser.bookmarks.search({url: commandfox.url});
+                        searching.then(
+                            function (bookmarkItems) {
+                                if (bookmarkItems.length == 0) {
+                                    console.log("Ambiguos result %o", bookmarkItems);
+                                } else {
+                                    for (var bookmarkItem of bookmarkItems) {
+                                        makeSearchCommand({name: bookmarkItem.title,
+                                                           description: "Command " + bookmarkItem.title,
+                                                           url:  bookmarkItem.url});
+                                    }
+                                }
+                            },
+                            function (error) {
+                                console.log(`An error searching back by URL: ${error}`);
+                            });
                     }
                 }
             }
@@ -99,7 +112,7 @@ function handleCommand(text) {
     }
     if (urlData === undefined) {
         if (text.indexOf(':') !== -1) {
-            tabs.create({"url": text});
+            browser.tabs.create({"url": text});
         } else {
         }
     } else {
@@ -107,7 +120,7 @@ function handleCommand(text) {
         if (urlToOpen !== undefined) {
             var urlWithQuery = urlToOpen.replace("{QUERY}", queryCmd);
             urlWithQuery = urlWithQuery.replace("%7BQUERY%7D", queryCmd);
-            tabs.create({"url": urlWithQuery});
+            browser.tabs.create({"url": urlWithQuery});
         }
         var funcToExec = urlData['func'];
         if (funcToExec) {
