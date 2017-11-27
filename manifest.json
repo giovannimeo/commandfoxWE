@@ -7,13 +7,20 @@
     "permissions": [
         "bookmarks",
         "tabs"
-    ], 
+    ],
+    "icons": {
+        "128": "icons/commandfoxWE128.png"
+    },
     "background": {
-        "scripts": ["index.js"]
+        "scripts": ["commandfoxWEBackground.js"]
     },
     "browser_action": {
+        "browser_style": false,
+        "default_icon": {
+            "128" : "icons/commandfoxWE128.png"
+        },
         "default_title": "commandfoxWE",
-        "default_popup": "popup/commandfoxWE.html"
+        "default_popup": "commandfoxWE.html"
     },
     "commands": {
         "_execute_browser_action": {
