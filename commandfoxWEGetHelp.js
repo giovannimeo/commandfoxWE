@@ -1,5 +1,11 @@
+///////////////////////////////////////////////////////////////////////////
+// Code that create the list of commands with description, when the help //
+// command is launched, this is executed in commandfoxWEHelpTab.html     //
+///////////////////////////////////////////////////////////////////////////
 console.log("Launching commandfoxWEGetHelp.js");
 
+// Function that takes in input a summary of the commands and create a
+// table out of it
 function onCommandDb(commandDbUnordered) {
     var listContainer = document.createElement("div");
     document.getElementsByTagName("body")[0].appendChild(listContainer);
@@ -31,6 +37,8 @@ function onCommandDb(commandDbUnordered) {
     tableElement.appendChild(tableBody);
 }
 
+// Handler for the message coming from the background script, carrying
+// a JSON data structure describing the known commands
 browser.runtime.onMessage.addListener(m => {
     console.log(`Received a message ${m}`);
     if (m.hasOwnProperty("commands")) {
