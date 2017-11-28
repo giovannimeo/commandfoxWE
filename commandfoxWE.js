@@ -9,6 +9,7 @@ inputArea.addEventListener('keyup', function onkeyup(event) {
     if (event.keyCode == 13) {
         // Remove the newline.
         var text = inputArea.value.replace(/(\r\n|\n|\r)/gm,"");
+        text = text.trim();
         console.log(`Send message to background script: ${text}`);
         var toBackgroundScript = browser.runtime.connect({name: "commandfoxWESendEditBox"});
         toBackgroundScript.postMessage({command: text});
