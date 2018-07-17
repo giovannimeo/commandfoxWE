@@ -1,7 +1,18 @@
-textarea {
+.container{
+    padding: 10px;
+    border: 1px solid silver;
+}
+
+.container .text{
+    resize: none;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    height: 100%;
+    margin: -10px;
     font-size: 16pt;
     font-family: Arial;
-    margin: 5px;
 }
 body {
     background-color: gray;
